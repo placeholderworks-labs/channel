@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trigger Campaigns · PlaceholderWorks WhatsApp</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>" />
+  <style>    :root {
+      --bg: #f5f7fa;
+      --surface: #ffffff;
+      --surface-2: #f1f5f9;
+      --border: #e6e9ef;
+      --border-strong: #d3d9e3;
+      --text: #0f172a;
+      --muted: #64748b;
+      --faint: #94a3b8;
+      --accent: #e5145f;
+      --accent-dark: #b80d4a;
+      --accent-soft: #fde8ef;
+      --accent-ring: rgba(229,20,95,.18);
+      --info: #2563eb;
+      --success: #16a34a; --success-bg: #dcfce7;
+      --danger: #dc2626;  --danger-bg: #fee2e2;
+      --warn: #92400e;    --warn-bg: #fef3c7;
+      --chip-bg: #eef2ff; --chip-text: #3730a3;
+      --shadow-sm: 0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.05);
+      --shadow-md: 0 4px 12px rgba(15,23,42,.08), 0 2px 4px rgba(15,23,42,.04);
+      --shadow-lg: 0 18px 50px rgba(15,23,42,.22);
+      --radius: 12px;
+    }
+    :root[data-theme="dark"], html.dark {
+      --bg: #0b0f17; --surface: #131a26; --surface-2: #1a2230; --border: #26303f;
+      --border-strong: #344154; --text: #e7edf5; --muted: #94a3b8; --faint: #6b7a8f;
+      --accent: #ff4f8b; --accent-dark: #f0306f; --accent-soft: rgba(255,79,139,.14); --accent-ring: rgba(255,79,139,.28);
+      --info: #60a5fa; --success: #4ade80; --success-bg: rgba(74,222,128,.14);
+      --danger: #f87171; --danger-bg: rgba(248,113,113,.14);
+      --warn: #fbbf24; --warn-bg: rgba(251,191,36,.14);
+      --chip-bg: rgba(99,102,241,.16); --chip-text: #c7d2fe;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.3); --shadow-md: 0 6px 18px rgba(0,0,0,.4);
+      --shadow-lg: 0 24px 60px rgba(0,0,0,.6);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0b0f17; --surface: #131a26; --surface-2: #1a2230; --border: #26303f; --border-strong: #344154;
+        --text: #e7edf5; --muted: #94a3b8; --faint: #6b7a8f;
+        --accent: #ff4f8b; --accent-dark: #f0306f; --accent-soft: rgba(255,79,139,.14); --accent-ring: rgba(255,79,139,.28);
+        --info: #60a5fa; --success: #4ade80; --success-bg: rgba(74,222,128,.14);
+        --danger: #f87171; --danger-bg: rgba(248,113,113,.14);
+        --warn: #fbbf24; --warn-bg: rgba(251,191,36,.14);
+        --chip-bg: rgba(99,102,241,.16); --chip-text: #c7d2fe;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,.3); --shadow-md: 0 6px 18px rgba(0,0,0,.4);
+        --shadow-lg: 0 24px 60px rgba(0,0,0,.6);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    }
+    svg { display: block; }
+    .icon { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 14px;
+      padding: 12px 22px; background: color-mix(in srgb, var(--surface) 86%, transparent);
+      backdrop-filter: saturate(160%) blur(10px); border-bottom: 1px solid var(--border);
+    }
+    .brand { display: flex; align-items: center; gap: 11px; }
+    .brand .logo { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff; box-shadow: var(--shadow-sm); }
+    .brand h1 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+    .brand p { margin: 0; font-size: 11.5px; color: var(--muted); }
+    .spacer { flex: 1; }
+    .status-pill { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600;
+      padding: 6px 11px; border-radius: 20px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); }
+    .status-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
+    .status-pill.online { color: var(--success); background: var(--success-bg); border-color: transparent; }
+    .status-pill.online .dot { background: var(--success); box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 25%, transparent); }
+    .icon-btn { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 9px; cursor: pointer;
+      background: var(--surface-2); border: 1px solid var(--border); color: var(--text); }
+    .icon-btn:hover { border-color: var(--border-strong); background: var(--surface); }
+
+    main { max-width: 1120px; margin: 0 auto; padding: 26px 20px 60px; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; cursor: pointer;
+      border: 1px solid transparent; border-radius: 9px; padding: 9px 15px; font-size: 13.5px; font-weight: 600;
+      font-family: inherit; background: var(--accent); color: #fff; transition: background .15s, box-shadow .15s, transform .05s; white-space: nowrap; }
+    .btn:hover { background: var(--accent-dark); }
+    .btn:active { transform: translateY(1px); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+    .btn.ghost { background: var(--surface); color: var(--text); border-color: var(--border); }
+    .btn.ghost:hover { border-color: var(--border-strong); background: var(--surface-2); }
+    .btn.danger { background: var(--danger); }
+    .btn.sm { padding: 6px 11px; font-size: 12.5px; border-radius: 8px; }
+    .btn.block { width: 100%; }
+
+    label { display: block; font-size: 12.5px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .sub { font-size: 11.5px; color: var(--muted); font-weight: 500; margin-top: 6px; }
+    input[type=text], input[type=password], select, textarea {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--border-strong); border-radius: 9px;
+      font-size: 14px; font-family: inherit; background: var(--surface); color: var(--text); transition: border-color .15s, box-shadow .15s; }
+    input::placeholder, textarea::placeholder { color: var(--faint); }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-ring); }
+    textarea { resize: vertical; min-height: 130px; line-height: 1.6; }
+    select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 11px center; padding-right: 34px; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+
+    #gate { min-height: 62vh; display: grid; place-items: center; }
+    .gate-card { width: 100%; max-width: 420px; padding: 30px; text-align: center; }
+    .gate-card .lock { width: 54px; height: 54px; border-radius: 14px; margin: 0 auto 16px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+    .gate-card h2 { margin: 0 0 6px; font-size: 18px; }
+    .gate-card p { margin: 0 0 22px; color: var(--muted); font-size: 13px; }
+    .gate-card .field { text-align: left; margin-bottom: 16px; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+    .stat { padding: 16px 18px; }
+    .stat .k { font-size: 11.5px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; display: flex; align-items: center; gap: 7px; }
+    .stat .v { font-size: 27px; font-weight: 750; letter-spacing: -.02em; margin-top: 6px; font-variant-numeric: tabular-nums; }
+    .stat .ic { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; }
+
+    .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .search { position: relative; flex: 1; min-width: 220px; }
+    .search .icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--faint); }
+    .search input { padding-left: 38px; }
+    .toolbar .filter { min-width: 190px; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
+      font-weight: 700; padding: 13px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; background: var(--surface-2); }
+    thead th:first-child { border-top-left-radius: var(--radius); }
+    thead th:last-child { border-top-right-radius: var(--radius); }
+    tbody td { padding: 15px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr { transition: background .12s; }
+    tbody tr:hover { background: color-mix(in srgb, var(--accent) 4%, transparent); }
+    .num { font-variant-numeric: tabular-nums; font-weight: 600; }
+    .cname { font-weight: 600; }
+    .cname .muted { font-weight: 400; color: var(--faint); }
+    .msg { color: var(--muted); font-size: 12.5px; white-space: pre-wrap; max-width: 340px; }
+    .msg.clamp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .msg-more { color: var(--accent); font-weight: 600; cursor: pointer; font-size: 11.5px; margin-top: 3px; display: inline-block; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--chip-bg); color: var(--chip-text);
+      border-radius: 7px; padding: 3px 9px; font-size: 12px; font-weight: 650; letter-spacing: .01em; }
+    .chip.num { background: var(--surface-2); color: var(--text); font-variant-numeric: tabular-nums; border: 1px solid var(--border); }
+    .chip.more { background: transparent; color: var(--muted); border: 1px dashed var(--border-strong); }
+    .chip.removable { padding-right: 5px; }
+    .uploader { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px;
+                border: 1.5px dashed var(--border-strong); border-radius: 10px; background: var(--surface-2); }
+    .uploader.drag { border-color: var(--accent); background: var(--accent-soft); }
+    .uploader.busy { opacity: .6; pointer-events: none; }
+    .up-hint { font-size: 12.5px; color: var(--muted); }
+    .img-preview { margin-top: 10px; border: 1px solid var(--border); border-radius: 10px; padding: 8px; background: var(--surface-2); }
+    .img-preview img { display: block; max-width: 100%; max-height: 180px; border-radius: 7px; object-fit: contain; }
+    .img-preview img[hidden] { display: none; }
+    .img-meta { display: flex; align-items: center; gap: 10px; margin-top: 7px; font-size: 12px; }
+    .img-meta a { margin-left: auto; color: var(--danger); cursor: pointer; font-weight: 600; }
+    .img-meta .muted { color: var(--muted); }
+    .img-meta .bad { color: var(--danger); font-weight: 600; }
+    .img-meta .good { color: var(--success); font-weight: 600; }
+    .plat { font-size: 9.5px; font-weight: 750; letter-spacing: .4px; text-transform: uppercase;
+            padding: 1px 5px; border-radius: 5px; line-height: 1.5; flex: none; }
+    .plat.karix { background: color-mix(in srgb, var(--info) 16%, transparent); color: var(--info); }
+    .plat.meta { background: color-mix(in srgb, var(--success) 20%, transparent); color: var(--success); }
+    .plat.nowonextel { background: color-mix(in srgb, var(--warning, #b7791f) 20%, transparent); color: var(--warning, #b7791f); }
+    .ms-opt span { display: inline-flex; align-items: center; gap: 7px; }
+    .chip button { border: none; background: transparent; color: inherit; cursor: pointer; font-size: 15px; line-height: 1; padding: 0 1px; opacity: .7; }
+    .chip button:hover { opacity: 1; }
+
+    .badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 20px; font-size: 11.5px; font-weight: 650; }
+    .badge.all { background: color-mix(in srgb, var(--info) 14%, transparent); color: var(--info); }
+    .toggle-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 650; cursor: pointer; border: 1px solid transparent; user-select: none; }
+    .toggle-status.on { background: var(--success-bg); color: var(--success); }
+    .toggle-status.off { background: var(--danger-bg); color: var(--danger); }
+    .toggle-status .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .toggle-status:hover { filter: brightness(.97); }
+    .row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+
+    .empty { text-align: center; padding: 54px 20px; color: var(--muted); }
+    .empty .big { width: 56px; height: 56px; border-radius: 14px; background: var(--surface-2); display: grid; place-items: center; margin: 0 auto 14px; color: var(--faint); }
+    .empty h3 { margin: 0 0 4px; color: var(--text); font-size: 15px; }
+    .empty p { margin: 0 0 18px; font-size: 13px; }
+    .skeleton { height: 14px; border-radius: 6px; background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 37%, var(--surface-2) 63%); background-size: 400% 100%; animation: sk 1.3s ease infinite; }
+    @keyframes sk { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+    .backdrop { position: fixed; inset: 0; background: rgba(15,23,42,.5); backdrop-filter: blur(3px);
+      display: none; align-items: flex-start; justify-content: center; padding: 30px 16px; z-index: 40; overflow-y: auto; }
+    .backdrop.show { display: flex; }
+    .modal { width: 100%; max-width: 560px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-lg); overflow: hidden; animation: pop .16s ease; }
+    @keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.99); } to { opacity: 1; transform: none; } }
+    .modal header { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--border); }
+    .modal header h2 { margin: 0; font-size: 16px; }
+    .modal header .eyebrow { font-size: 11.5px; color: var(--muted); font-weight: 600; }
+    .modal .body { padding: 22px; max-height: 70vh; overflow-y: auto; }
+    .modal .foot { display: flex; gap: 10px; justify-content: flex-end; padding: 16px 22px; border-top: 1px solid var(--border); background: var(--surface-2); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field { margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .trigger-box { border: 1px solid var(--border-strong); border-radius: 9px; padding: 8px; transition: border-color .15s, box-shadow .15s; }
+    .trigger-box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-ring); }
+    .trigger-box input { border: none; box-shadow: none !important; padding: 4px 6px; }
+    .trigger-box .chips { margin-top: 8px; }
+    .trigger-box .chips:empty { display: none; }
+
+    .allnum { display: flex; align-items: center; gap: 9px; padding: 10px 12px; border: 1px solid var(--border-strong);
+      border-radius: 9px; font-weight: 600; font-size: 13px; cursor: pointer; margin-bottom: 10px; background: var(--surface); }
+    .allnum input { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+    .allnum span { font-weight: 500; color: var(--muted); }
+    .allnum span strong { color: var(--text); font-weight: 700; }
+    .ms { position: relative; }
+    .ms.disabled { opacity: .5; pointer-events: none; }
+    .ms-control { display: flex; align-items: center; gap: 8px; min-height: 42px; padding: 6px 10px; border: 1px solid var(--border-strong);
+      border-radius: 9px; cursor: pointer; background: var(--surface); }
+    .ms-control:focus, .ms-control.open { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-ring); }
+    .ms-tags { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
+    .ms-tags .ms-ph { color: var(--faint); font-size: 13.5px; padding: 3px 0; }
+    .ms-chev { color: var(--muted); transition: transform .15s; }
+    .ms-control.open .ms-chev { transform: rotate(180deg); }
+    .ms-panel { display: none; margin-top: 8px; border: 1px solid var(--border-strong); border-radius: 10px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow-md); }
+    .ms-panel.open { display: block; }
+    .ms-search { padding: 8px; border-bottom: 1px solid var(--border); }
+    .ms-search input { padding: 8px 10px; }
+    .ms-actions { display: flex; justify-content: space-between; align-items: center; padding: 7px 12px; border-bottom: 1px solid var(--border); font-size: 11.5px; color: var(--muted); }
+    .ms-actions a { color: var(--accent); font-weight: 600; cursor: pointer; }
+    .ms-list { max-height: 190px; overflow-y: auto; padding: 4px; }
+    .ms-opt { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 7px; cursor: pointer; font-weight: 500; margin: 0; }
+    .ms-opt:hover { background: var(--surface-2); }
+    .ms-opt input { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+    .ms-opt span { font-variant-numeric: tabular-nums; }
+    .ms-empty { padding: 14px; text-align: center; color: var(--faint); font-size: 12.5px; }
+
+    .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(10px);
+      display: flex; align-items: center; gap: 9px; background: #0f172a; color: #fff; padding: 12px 18px; border-radius: 11px;
+      font-size: 13px; font-weight: 500; box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; max-width: 92%; z-index: 60; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.ok { background: var(--accent-dark); }
+    .toast.err { background: var(--danger); }
+    .toast .icon { width: 18px; height: 18px; }
+
+    @media (max-width: 780px) { .stats { grid-template-columns: repeat(2, 1fr); } .grid2 { grid-template-columns: 1fr; } .brand p { display: none; } }
+    @media (max-width: 520px) { .stats { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">
+        <svg class="icon" style="width:19px;height:19px" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </div>
+      <div>
+        <h1>Trigger Campaigns</h1>
+        <p>Auto-reply keywords for Karix &amp; Meta WhatsApp numbers</p>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <span class="status-pill" id="statusPill"><span class="dot"></span><span id="statusText">Not connected</span></span>
+    <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">
+      <svg class="icon" id="themeIcon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+    <button class="icon-btn" id="lockBtn" title="Lock / disconnect" aria-label="Lock" style="display:none;">
+      <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </button>
+  </div>
+
+  <main>
+        <section id="gate">
+      <div class="card gate-card">
+        <div class="lock">
+          <svg class="icon" style="width:26px;height:26px" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h2>Admin access</h2>
+        <p>Enter your admin secret to manage trigger campaigns.</p>
+        <div class="field">
+          <label for="secret">Admin secret</label>
+          <input type="password" id="secret" placeholder="X-Admin-Secret" autocomplete="off" />
+          <div class="sub">Stored in this browser for 24 hours, then you'll be asked to sign in again.</div>
+        </div>
+        <button class="btn block" id="connectBtn">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          Connect
+        </button>
+      </div>
+    </section>
+
+        <section id="dashboard" style="display:none;">
+      <div class="stats">
+        <div class="card stat">
+          <div class="k"><span class="ic" style="background:var(--accent-soft);color:var(--accent)"><svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16v12H5.2L4 17.2z"/></svg></span>Campaigns</div>
+          <div class="v" id="statTotal">–</div>
+        </div>
+        <div class="card stat">
+          <div class="k"><span class="ic" style="background:var(--success-bg);color:var(--success)"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Active</div>
+          <div class="v" id="statActive">–</div>
+        </div>
+        <div class="card stat">
+          <div class="k"><span class="ic" style="background:var(--danger-bg);color:var(--danger)"><svg class="icon" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></span>Inactive</div>
+          <div class="v" id="statInactive">–</div>
+        </div>
+        <div class="card stat">
+          <div class="k"><span class="ic" style="background:color-mix(in srgb,var(--info) 14%,transparent);color:var(--info)"><svg class="icon" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 11.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg></span>Numbers used</div>
+          <div class="v" id="statNumbers">–</div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="search">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="searchInput" placeholder="Search trigger words, message, name or number…" />
+        </div>
+        <select class="filter" id="filterNumber"><option value="">All numbers</option></select>
+        <button class="btn ghost sm" id="refreshBtn" title="Refresh">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+        </button>
+        <button class="btn" id="newBtn">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          New Campaign
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap" id="tableWrap"></div>
+      </div>
+    </section>
+  </main>
+
+    <div class="backdrop" id="backdrop">
+    <div class="modal" role="dialog" aria-modal="true">
+      <header>
+        <div>
+          <div class="eyebrow" id="modalEyebrow">New</div>
+          <h2 id="modalTitle">Add Trigger Campaign</h2>
+        </div>
+        <button class="icon-btn" id="closeModalBtn" aria-label="Close">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </header>
+      <div class="body">
+        <div class="field">
+          <label for="name">Campaign name <span style="color:var(--faint);font-weight:400">(optional)</span></label>
+          <input type="text" id="name" placeholder="e.g. Services menu" />
+        </div>
+
+        <div class="field">
+          <label>WhatsApp numbers</label>
+          <label class="allnum" for="allNumbers">
+            <input type="checkbox" id="allNumbers" />
+            <span>Apply to <strong>all</strong> numbers (Karix + Meta)</span>
+          </label>
+          <div class="ms" id="msWrap">
+            <div class="ms-control" id="msControl" tabindex="0">
+              <div class="ms-tags" id="msTags"></div>
+              <svg class="icon ms-chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="ms-panel" id="msPanel">
+              <div class="ms-search"><input type="text" id="msSearch" placeholder="Filter numbers…" /></div>
+              <div class="ms-actions"><span id="msCount">0 selected</span><a id="msClear">Clear</a></div>
+              <div class="ms-list" id="msList"></div>
+            </div>
+          </div>
+          <div class="sub" id="numbersHint">Pick one or more numbers, or enable “all numbers” above. Campaigns work on both Karix and Meta numbers.</div>
+        </div>
+
+        <div class="field">
+          <label for="triggerInput">Trigger words</label>
+          <div class="trigger-box">
+            <input type="text" id="triggerInput" placeholder="Type a word, press Enter (e.g. SERVICES)" style="text-transform:uppercase" />
+            <div class="chips" id="triggerChips"></div>
+          </div>
+          <div class="sub"><strong>Case-sensitive — the customer must send the word in CAPS.</strong> Words are saved in uppercase, and “SERVICES” fires while “services” does not. The whole message must equal the word. Add the template quick-reply payload too (e.g. GET_COUPON_CODE) if a button should trigger it.</div>
+        </div>
+
+        <div class="field">
+          <label for="active">Status</label>
+          <select id="active">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="message">Message sent on WhatsApp</label>
+          <textarea id="message" placeholder="Exact message the user will receive…"></textarea>
+          <div class="sub">Sent verbatim. WhatsApp formatting: *bold*, _italic_. Line breaks are preserved.</div>
+        </div>
+
+        <div class="field">
+          <label for="imageUrl">Image <span style="color:var(--faint);font-weight:400">(optional — one per campaign)</span></label>
+          <input type="hidden" id="imageUrl" />
+          <input type="file" id="imageFile" accept="image/jpeg,image/png,.jpg,.jpeg,.png" hidden />
+          <div class="uploader" id="dropZone">
+            <button type="button" class="btn ghost sm" id="chooseImageBtn">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              Choose image
+            </button>
+            <span class="up-hint" id="uploadHint">or drag a JPG / PNG here — max 5 MB</span>
+          </div>
+          <div class="sub">Optional. Picked from your device and stored on the server, then attached to the reply. The message is sent as the image caption; if it is longer than 1024 characters the image is sent first and the full text follows.</div>
+          <div id="imgPreviewWrap" class="img-preview" style="display:none">
+            <img id="imgPreview" alt="Campaign image preview" />
+            <div class="img-meta"><span id="imgStatus" class="muted">Loading preview…</span><a id="imgClear">Remove image</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="foot">
+        <button class="btn ghost" id="cancelBtn">Cancel</button>
+        <button class="btn" id="saveBtn">Save Campaign</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>    const AUTH_KEY = 'pw_admin_auth';
+    const TTL_MS = 24 * 60 * 60 * 1000;
+    let expiryTimer = null;
+
+    function saveAuth(secret) {
+      localStorage.setItem(AUTH_KEY, JSON.stringify({ secret: secret, exp: Date.now() + TTL_MS }));
+      scheduleExpiry();
+    }
+    function getAuth() {
+      try {
+        const a = JSON.parse(localStorage.getItem(AUTH_KEY) || 'null');
+        if (a && a.secret && a.exp > Date.now()) return a;
+      } catch (e) {}
+      return null;
+    }
+    function clearAuth() { localStorage.removeItem(AUTH_KEY); if (expiryTimer) clearTimeout(expiryTimer); }
+    function scheduleExpiry() {
+      if (expiryTimer) clearTimeout(expiryTimer);
+      const a = getAuth(); if (!a) return;
+      const ms = Math.max(0, a.exp - Date.now());
+      expiryTimer = setTimeout(() => forceRelogin('Session expired after 24 hours — please sign in again.'), ms);
+    }
+    function forceRelogin(msg) { clearAuth(); allCampaigns = []; setConnected(false); if (msg) toast(msg, 'err'); }
+    function handleForbidden() { clearAuth(); allCampaigns = []; setConnected(false); }
+
+    const api = {
+      secret: () => { const a = getAuth(); return a ? a.secret : ''; },
+      headers() { return { 'Content-Type': 'application/json', 'X-Admin-Secret': this.secret() }; },
+      async req(method, path, body) {
+        const res = await fetch(path, { method, headers: this.headers(), body: body ? JSON.stringify(body) : undefined });
+        let data = null; try { data = await res.json(); } catch (e) {}
+        if (res.status === 403) handleForbidden();
+        if (!res.ok) {
+          let msg = (data && (data.detail || data.message)) || ('HTTP ' + res.status);
+          if (Array.isArray(msg)) msg = msg.map(x => x.msg || JSON.stringify(x)).join('; ');
+          throw new Error(typeof msg === 'string' ? msg : JSON.stringify(msg));
+        }
+        return data;
+      },
+    };
+
+    let triggers = [];
+    let editingId = null;
+    let numbers = [];
+    let platforms = {};
+    let allCampaigns = [];
+    let selectedNumbers = [];
+    let allNumbers = false;
+
+    const $ = (id) => document.getElementById(id);
+    const platformOf = (n) => platforms[n] || 'karix';
+    const PLATFORM_LABELS = { karix: 'Karix', nowonextel: 'Nowonextel', meta: 'Meta' };
+    const platformLabel = (n) => PLATFORM_LABELS[platformOf(n)] || 'Karix';
+    const platformTag = (n) => `<span class="plat ${platformOf(n)}">${platformLabel(n)}</span>`;
+    const ICON = {
+      ok: '<svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>',
+      err: '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>',
+    };
+    function esc(s) { return (s == null ? '' : String(s)).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+    function toast(msg, type) {
+      $('toast').innerHTML = (type === 'err' ? ICON.err : ICON.ok) + '<span>' + esc(msg) + '</span>';
+      $('toast').className = 'toast show ' + (type || 'ok');
+      clearTimeout(toast._t); toast._t = setTimeout(() => { $('toast').className = 'toast'; }, 3400);
+    }
+
+    function applyTheme(t) {
+      if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.removeAttribute('data-theme');
+      const dark = t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches);
+      $('themeIcon').outerHTML = dark
+        ? '<svg class="icon" id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>'
+        : '<svg class="icon" id="themeIcon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+    }
+    $('themeBtn').onclick = () => {
+      const cur = localStorage.getItem('pw_theme');
+      const next = cur ? (cur === 'dark' ? 'light' : 'dark') : (matchMedia('(prefers-color-scheme: dark)').matches ? 'light' : 'dark');
+      localStorage.setItem('pw_theme', next); applyTheme(next);
+    };
+    applyTheme(localStorage.getItem('pw_theme'));
+
+    function renderChips() {
+      $('triggerChips').innerHTML = triggers.map((t, i) => `<span class="chip removable">${esc(t)}<button data-i="${i}" title="Remove">&times;</button></span>`).join('');
+      $('triggerChips').querySelectorAll('button').forEach(b => b.onclick = () => { triggers.splice(+b.dataset.i, 1); renderChips(); });
+    }
+    function addTrigger(raw) {
+      (raw || '').split(',').forEach(p => { const w = p.trim().toUpperCase(); if (w && !triggers.includes(w)) triggers.push(w); });
+      renderChips();
+    }
+    $('triggerInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); addTrigger(e.target.value); e.target.value = ''; }
+      else if (e.key === 'Backspace' && !e.target.value && triggers.length) { triggers.pop(); renderChips(); }
+    });
+    $('triggerInput').addEventListener('blur', e => { if (e.target.value.trim()) { addTrigger(e.target.value); e.target.value = ''; } });
+
+    function msSummaryText() {
+      if (allNumbers) return 'All numbers';
+      if (!selectedNumbers.length) return '';
+      return selectedNumbers.length + ' selected';
+    }
+    function renderMsTags() {
+      const box = $('msTags');
+      if (allNumbers) { box.innerHTML = '<span class="chip">All numbers (Karix + Meta)</span>'; return; }
+      if (!selectedNumbers.length) { box.innerHTML = '<span class="ms-ph">Select one or more numbers…</span>'; return; }
+      box.innerHTML = selectedNumbers.map(n => `<span class="chip num removable">${esc(n)}${platformTag(n)}<button data-n="${esc(n)}" title="Remove">&times;</button></span>`).join('');
+      box.querySelectorAll('button').forEach(b => b.onclick = (e) => { e.stopPropagation(); toggleNumber(b.dataset.n, false); });
+    }
+    function renderMsList() {
+      const q = $('msSearch').value.trim().toLowerCase();
+      const list = numbers.filter(n => !q || n.includes(q) || platformOf(n).includes(q));
+      $('msCount').textContent = selectedNumbers.length + ' selected';
+      if (!list.length) { $('msList').innerHTML = '<div class="ms-empty">No numbers match.</div>'; return; }
+      $('msList').innerHTML = list.map(n =>
+        `<label class="ms-opt"><input type="checkbox" data-n="${esc(n)}" ${selectedNumbers.includes(n) ? 'checked' : ''} ${allNumbers ? 'disabled' : ''}/><span>${esc(n)}${platformTag(n)}</span></label>`
+      ).join('');
+      $('msList').querySelectorAll('input').forEach(inp => inp.onchange = () => toggleNumber(inp.dataset.n, inp.checked));
+    }
+    function toggleNumber(n, on) {
+      if (on) { if (!selectedNumbers.includes(n)) selectedNumbers.push(n); }
+      else { selectedNumbers = selectedNumbers.filter(x => x !== n); }
+      renderMsTags(); renderMsList();
+    }
+    function setAllNumbers(on) {
+      allNumbers = on;
+      $('allNumbers').checked = on;
+      $('msWrap').classList.toggle('disabled', on);
+      if (on) closeMsPanel();
+      renderMsTags(); renderMsList();
+    }
+    function openMsPanel() { if (allNumbers) return; $('msPanel').classList.add('open'); $('msControl').classList.add('open'); renderMsList(); }
+    function closeMsPanel() { $('msPanel').classList.remove('open'); $('msControl').classList.remove('open'); }
+    function toggleMsPanel() { $('msPanel').classList.contains('open') ? closeMsPanel() : openMsPanel(); }
+
+    $('allNumbers').onchange = (e) => setAllNumbers(e.target.checked);
+    $('msControl').onclick = toggleMsPanel;
+    $('msControl').onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMsPanel(); } };
+    $('msSearch').oninput = renderMsList;
+    $('msSearch').onclick = (e) => e.stopPropagation();
+    $('msClear').onclick = (e) => { e.stopPropagation(); selectedNumbers = []; renderMsTags(); renderMsList(); };
+    document.addEventListener('click', (e) => { if (!$('msWrap').contains(e.target)) closeMsPanel(); });
+
+    const MAX_IMAGE_MB = 5;
+
+    function setImage(url) {
+      $('imageUrl').value = url || '';
+      renderImagePreview();
+    }
+
+    function renderImagePreview() {
+      const url = $('imageUrl').value.trim();
+      const wrap = $('imgPreviewWrap'), img = $('imgPreview'), st = $('imgStatus');
+      if (!url) { wrap.style.display = 'none'; img.removeAttribute('src'); return; }
+      wrap.style.display = 'block';
+      st.className = 'muted'; st.textContent = 'Loading preview\u2026';
+      img.hidden = false;
+      img.onload = () => { st.className = 'good'; st.textContent = 'Image attached \u2014 this is what the customer will see.'; };
+      img.onerror = () => { img.hidden = true; st.className = 'bad'; st.textContent = 'Stored, but the preview could not be loaded.'; };
+      img.src = url;
+    }
+
+    async function uploadImage(file) {
+      if (!file) return;
+      if (!/^image\/(jpeg|png)$/i.test(file.type) && !/\.(jpe?g|png)$/i.test(file.name)) {
+        return toast('Only JPG and PNG images can be sent on WhatsApp', 'err');
+      }
+      if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+        return toast(`Image is ${(file.size / 1024 / 1024).toFixed(1)} MB \u2014 the maximum is ${MAX_IMAGE_MB} MB`, 'err');
+      }
+      const zone = $('dropZone'), hint = $('uploadHint');
+      zone.classList.add('busy'); hint.textContent = 'Uploading\u2026';
+      try {
+        const fd = new FormData();
+        fd.append('file', file);
+        const res = await fetch('/api/trigger/images', {
+          method: 'POST',
+          headers: { 'X-Admin-Secret': api.secret() },
+          body: fd,
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.status === 403) handleForbidden();
+        if (!res.ok) throw new Error(data.detail || ('Upload failed (' + res.status + ')'));
+        setImage(data.url);
+        toast('Image uploaded');
+      } catch (e) {
+        toast(e.message, 'err');
+      } finally {
+        zone.classList.remove('busy');
+        hint.textContent = 'or drag a JPG / PNG here \u2014 max ' + MAX_IMAGE_MB + ' MB';
+      }
+    }
+
+    $('chooseImageBtn').onclick = () => $('imageFile').click();
+    $('imageFile').addEventListener('change', e => {
+      const f = e.target.files && e.target.files[0];
+      uploadImage(f);
+      e.target.value = '';
+    });
+    $('imgClear').onclick = () => setImage('');
+
+    const dz = $('dropZone');
+    ['dragenter', 'dragover'].forEach(ev => dz.addEventListener(ev, e => {
+      e.preventDefault(); dz.classList.add('drag');
+    }));
+    ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, e => {
+      e.preventDefault(); dz.classList.remove('drag');
+    }));
+    dz.addEventListener('drop', e => {
+      const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      uploadImage(f);
+    });
+
+    function openModal(c) {
+      editingId = c ? c.id : null;
+      triggers = c ? (c.trigger_words || []).slice() : [];
+      selectedNumbers = c ? (c.karix_numbers || []).slice() : [];
+      $('name').value = c ? (c.name || '') : '';
+      $('active').value = c ? String(c.is_active) : 'true';
+      $('message').value = c ? (c.message || '') : '';
+      $('imageUrl').value = c ? (c.image_url || '') : '';
+      renderImagePreview();
+      $('triggerInput').value = ''; $('msSearch').value = '';
+      setAllNumbers(c ? !!c.all_numbers : false);
+      renderChips();
+      $('modalEyebrow').textContent = c ? ('Editing #' + c.id) : 'New';
+      $('modalTitle').textContent = c ? 'Edit Trigger Campaign' : 'Add Trigger Campaign';
+      $('saveBtn').textContent = c ? 'Update Campaign' : 'Save Campaign';
+      closeMsPanel();
+      $('backdrop').classList.add('show');
+      setTimeout(() => $('name').focus(), 50);
+    }
+    function closeModal() { $('backdrop').classList.remove('show'); }
+
+    async function save() {
+      if ($('triggerInput').value.trim()) { addTrigger($('triggerInput').value); $('triggerInput').value = ''; }
+      const payload = {
+        name: $('name').value.trim(),
+        all_numbers: allNumbers,
+        karix_numbers: allNumbers ? [] : selectedNumbers,
+        trigger_words: triggers,
+        message: $('message').value,
+        image_url: $('imageUrl').value.trim(),
+        is_active: $('active').value === 'true',
+      };
+      if (!payload.all_numbers && !payload.karix_numbers.length) return toast('Select at least one number, or enable “all numbers”', 'err');
+      if (!payload.trigger_words.length) return toast('Add at least one trigger word', 'err');
+      if (!payload.message.trim()) return toast('Message cannot be empty', 'err');
+      $('saveBtn').disabled = true;
+      try {
+        if (editingId) { await api.req('PUT', '/api/trigger/campaigns/' + editingId, payload); toast('Campaign #' + editingId + ' updated'); }
+        else { const c = await api.req('POST', '/api/trigger/campaigns', payload); toast('Campaign #' + c.id + ' created'); }
+        closeModal(); await loadList();
+      } catch (e) { toast(e.message, 'err'); }
+      finally { $('saveBtn').disabled = false; }
+    }
+
+    async function del(id) {
+      if (!confirm('Delete campaign #' + id + '? This cannot be undone.')) return;
+      try { await api.req('DELETE', '/api/trigger/campaigns/' + id); toast('Campaign #' + id + ' deleted'); await loadList(); }
+      catch (e) { toast(e.message, 'err'); }
+    }
+
+    async function toggleActive(c) {
+      try {
+        await api.req('PUT', '/api/trigger/campaigns/' + c.id, {
+          name: c.name || '', all_numbers: !!c.all_numbers, karix_numbers: c.karix_numbers || [],
+          trigger_words: c.trigger_words, message: c.message, image_url: c.image_url || '',
+          is_active: !c.is_active,
+        });
+        toast('Campaign #' + c.id + (c.is_active ? ' deactivated' : ' activated'));
+        await loadList();
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    function renderStats() {
+      const active = allCampaigns.filter(c => c.is_active).length;
+      $('statTotal').textContent = allCampaigns.length;
+      $('statActive').textContent = active;
+      $('statInactive').textContent = allCampaigns.length - active;
+      const anyAll = allCampaigns.some(c => c.all_numbers);
+      const used = new Set(); allCampaigns.forEach(c => (c.karix_numbers || []).forEach(n => used.add(n)));
+      const count = anyAll ? numbers.length : used.size;
+      $('statNumbers').textContent = count + ' / ' + numbers.length;
+    }
+
+    function campaignAppliesToNumber(c, num) { return c.all_numbers || (c.karix_numbers || []).includes(num); }
+
+    function visibleCampaigns() {
+      const q = $('searchInput').value.trim().toLowerCase();
+      const num = $('filterNumber').value;
+      return allCampaigns.filter(c => {
+        if (num && !campaignAppliesToNumber(c, num)) return false;
+        if (!q) return true;
+        const hay = [c.name, c.message, (c.trigger_words || []).join(' '), (c.karix_numbers || []).join(' '), c.all_numbers ? 'all numbers' : ''].join(' ').toLowerCase();
+        return hay.includes(q);
+      });
+    }
+
+    function numbersCell(c) {
+      if (c.all_numbers) return '<span class="badge all">All numbers</span>';
+      const ns = c.karix_numbers || [];
+      if (!ns.length) return '<span class="cname"><span class="muted">—</span></span>';
+      const shown = ns.slice(0, 3).map(n => `<span class="chip num">${esc(n)}${platformTag(n)}</span>`).join(' ');
+      const extra = ns.length > 3 ? ` <span class="chip more">+${ns.length - 3}</span>` : '';
+      return `<div class="chips">${shown}${extra}</div>`;
+    }
+
+    function renderTable() {
+      const list = visibleCampaigns();
+      if (!allCampaigns.length) {
+        $('tableWrap').innerHTML = `<div class="empty"><div class="big"><svg class="icon" style="width:26px;height:26px" viewBox="0 0 24 24"><path d="M4 4h16v12H5.2L4 17.2z"/></svg></div>
+          <h3>No campaigns yet</h3><p>Create your first trigger campaign to auto-reply on a Karix or Meta number.</p>
+          <button class="btn" onclick="openModal()"><svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New Campaign</button></div>`;
+        return;
+      }
+      if (!list.length) {
+        $('tableWrap').innerHTML = `<div class="empty"><div class="big"><svg class="icon" style="width:24px;height:24px" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div><h3>No matches</h3><p>Nothing matches your search or filter.</p></div>`;
+        return;
+      }
+      const rows = list.map(c => {
+        const chips = (c.trigger_words || []).map(t => `<span class="chip">${esc(t)}</span>`).join('');
+        const imgTag = c.image_url
+          ? `<span class="plat meta" title="${esc(c.image_url)}" style="margin-left:6px">IMG</span>` : '';
+        const long = (c.message || '').length > 110;
+        const mid = 'm' + c.id;
+        return `<tr>
+          <td class="num">#${c.id}</td>
+          <td>${numbersCell(c)}</td>
+          <td><div class="cname">${esc(c.name) || '<span class="muted">Untitled</span>'}${imgTag}</div></td>
+          <td><div class="chips">${chips}</div></td>
+          <td><div class="msg clamp" id="${mid}">${esc(c.message)}</div>${long ? `<span class="msg-more" data-more="${mid}">Show more</span>` : ''}</td>
+          <td><span class="toggle-status ${c.is_active ? 'on' : 'off'}" data-toggle="${c.id}"><span class="dot"></span>${c.is_active ? 'Active' : 'Inactive'}</span></td>
+          <td><div class="row-actions">
+            <button class="btn ghost sm" data-edit="${c.id}"><svg class="icon" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Edit</button>
+            <button class="btn danger sm" data-del="${c.id}"><svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button>
+          </div></td></tr>`;
+      }).join('');
+      $('tableWrap').innerHTML = `<table><thead><tr>
+        <th>ID</th><th>Numbers</th><th>Name</th><th>Triggers</th><th>Message</th><th>Status</th><th style="text-align:right">Actions</th>
+      </tr></thead><tbody>${rows}</tbody></table>`;
+
+      const byId = id => allCampaigns.find(c => c.id === +id);
+      $('tableWrap').querySelectorAll('[data-edit]').forEach(b => b.onclick = () => openModal(byId(b.dataset.edit)));
+      $('tableWrap').querySelectorAll('[data-del]').forEach(b => b.onclick = () => del(+b.dataset.del));
+      $('tableWrap').querySelectorAll('[data-toggle]').forEach(b => b.onclick = () => toggleActive(byId(b.dataset.toggle)));
+      $('tableWrap').querySelectorAll('[data-more]').forEach(b => b.onclick = () => {
+        const el = $(b.dataset.more); el.classList.toggle('clamp');
+        b.textContent = el.classList.contains('clamp') ? 'Show more' : 'Show less';
+      });
+    }
+
+    function showSkeleton() {
+      $('tableWrap').innerHTML = '<div style="padding:18px">' +
+        Array.from({ length: 4 }, (_, i) => '<div class="skeleton" style="margin:12px 0;width:' + (60 + i * 8 % 40) + '%"></div>').join('') + '</div>';
+    }
+
+    async function loadList() {
+      showSkeleton();
+      try {
+        const data = await api.req('GET', '/api/trigger/campaigns');
+        allCampaigns = data.campaigns || [];
+        renderStats(); renderTable();
+      } catch (e) { toast(e.message, 'err'); $('tableWrap').innerHTML = ''; }
+    }
+
+    function populateNumbers() {
+      $('filterNumber').innerHTML = '<option value="">All numbers</option>' + numbers.map(n => `<option value="${esc(n)}">${esc(n)} · ${platformLabel(n)}</option>`).join('');
+    }
+
+    function setConnected(on) {
+      $('gate').style.display = on ? 'none' : 'grid';
+      $('dashboard').style.display = on ? 'block' : 'none';
+      $('lockBtn').style.display = on ? 'grid' : 'none';
+      $('statusPill').className = 'status-pill' + (on ? ' online' : '');
+      $('statusText').textContent = on ? 'Connected' : 'Not connected';
+    }
+
+    async function connect() {
+      const secret = $('secret').value.trim();
+      if (!secret) return toast('Enter the admin secret', 'err');
+      saveAuth(secret);
+      $('connectBtn').disabled = true;
+      try {
+        const data = await api.req('GET', '/api/trigger/numbers');
+        numbers = data.numbers || [];
+        platforms = data.platforms || {};
+        populateNumbers();
+        setConnected(true);
+        await loadList();
+        toast('Connected · ' + numbers.length + ' numbers');
+      } catch (e) { setConnected(false); toast('Connect failed: ' + e.message, 'err'); }
+      finally { $('connectBtn').disabled = false; }
+    }
+
+    function disconnect() { clearAuth(); allCampaigns = []; numbers = []; platforms = {}; setConnected(false); $('secret').value = ''; }
+
+    $('connectBtn').onclick = connect;
+    $('lockBtn').onclick = disconnect;
+    $('newBtn').onclick = () => openModal();
+    $('saveBtn').onclick = save;
+    $('cancelBtn').onclick = closeModal;
+    $('closeModalBtn').onclick = closeModal;
+    $('refreshBtn').onclick = () => loadList();
+    $('filterNumber').onchange = renderTable;
+    $('searchInput').oninput = renderTable;
+    $('secret').addEventListener('keydown', e => { if (e.key === 'Enter') connect(); });
+    $('backdrop').addEventListener('click', e => { if (e.target === $('backdrop')) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('backdrop').classList.contains('show')) closeModal(); });
+    window.openModal = openModal;
+
+    const auth = getAuth();
+    if (auth) { $('secret').value = auth.secret; scheduleExpiry(); connect(); }
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+INITIATED = "INITIATED"
+RINGING = "RINGING"
+ACTIVE = "ACTIVE"
+TRANSFER_INITIATED = "TRANSFER_INITIATED"
+TRANSFERRED = "TRANSFERRED"
+ACTIVE_WITH_AGENT = "ACTIVE_WITH_AGENT"
+ENDED = "ENDED"
+
+RANK = {
+    INITIATED: 10,
+    RINGING: 20,
+    ACTIVE: 30,
+    TRANSFER_INITIATED: 40,
+    TRANSFERRED: 50,
+    ACTIVE_WITH_AGENT: 60,
+    ENDED: 100,
+}
+
+LIVE = (ACTIVE, TRANSFER_INITIATED, TRANSFERRED, ACTIVE_WITH_AGENT)
+
+HANDED_OVER_RANK = RANK[TRANSFER_INITIATED]
+
+
+def rank(status: str) -> int:
+    return RANK.get(status, 0)
+
+
+def is_live(status: str) -> bool:
+    return status in LIVE
+
+
+def handed_over(status: str) -> bool:
+    return rank(status) >= HANDED_OVER_RANK

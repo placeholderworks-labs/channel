@@ -1,0 +1,6 @@
+callvoice_greeting:
+  hindi: नमस्ते {customer_name} जी, मैं रिया बोल रही हूँ PlaceholderWorks से। क्या अभी आपसे बात करने का सही समय है?
+  english: Hello {customer_name}, this is Riya calling from PlaceholderWorks. Is this a good time to talk?
+webvoice_greeting:
+  hindi: नमस्ते, मैं आरिया — PlaceholderWorks की AI assistant। बताइए, आज मैं आपकी क्या मदद कर सकती हूँ?
+  english: Hi, I'm Aria, PlaceholderWorks' AI assistant. How can I help you today?

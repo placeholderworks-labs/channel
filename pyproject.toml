@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pw-channel"
+version = "0.1.0"
+description = "PlaceholderWorks channel service: intake, journey scheduler, voice, WhatsApp and email channels"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pw-sdk",
+    "fastapi>=0.128.0",
+    "uvicorn[standard]>=0.40.0",
+    "pydantic>=2.9",
+    "pyyaml>=6.0",
+    "httpx>=0.28",
+    "psycopg[binary,pool]>=3.2",
+    "tzdata>=2024.1",
+]
+
+[project.optional-dependencies]
+voice = [
+    "pipecat-ai[deepgram,google,sarvam,silero]==1.6.0",
+    "pipecat-murf-tts>=0.2.5",
+    "pipecat-acefone>=0.1.2",
+    "google-auth>=2.35",
+    "scipy>=1.14",
+]
+whatsapp = ["redis[hiredis]>=5.0", "python-multipart>=0.0.9", "pydantic-settings>=2.4", "asyncpg>=0.29"]
+email = ["jinja2>=3.1"]
+
+[project.scripts]
+pw-channel = "pw_channel.runner:main"
+
+[project.entry-points."pw.adapters"]
+"builtin.canonical" = "pw_channel.intake.builtin.canonical:CanonicalAdapter"
+"builtin.fields" = "pw_channel.intake.builtin.fields:FieldsAdapter"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pw_channel"]
+
+[tool.uv.sources]
+pw-sdk = { path = "../pw-sdk", editable = true }
+
+[dependency-groups]
+dev = ["pytest>=8.3", "pytest-asyncio>=0.24", "pgserver>=0.1.4"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"

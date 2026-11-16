@@ -1,0 +1,107 @@
+:root {
+  color-scheme: light;
+
+  --ground: #f7f4f5;
+  --ground-2: #efe9ec;
+  --surface: #ffffff;
+  --surface-2: #fbf8f9;
+  --surface-sunk: #f3eef0;
+  --line: #ebe3e7;
+  --line-strong: #d9ccd2;
+
+  --ink: #0d0a0c;
+  --ink-2: #3a2f35;
+  --muted: #6e6268;
+  --faint: #9b8e95;
+
+  --brand: #e00d4f;
+  --brand-ink: #b1023f;
+  --brand-wash: #fdecf2;
+  --brand-line: #f6c2d4;
+  --brand-deep: #83022e;
+  --brand-light: #f9286b;
+
+  --live: #6d3df5;
+  --live-ink: #4f22c9;
+  --live-wash: #f0ebff;
+  --live-line: #d4c6fd;
+
+  --ok: #0c7a45;
+  --ok-wash: #e4f5eb;
+  --ok-line: #b3ddc5;
+
+  --warn: #8f5600;
+  --warn-wash: #fdf2df;
+  --warn-line: #f0dcae;
+
+  --halt: #b4232b;
+  --halt-wash: #fdecec;
+  --halt-line: #f4cbcc;
+
+  --lamp-off: #d3c7cd;
+
+  --display: "Poppins", "Noto Sans Devanagari", system-ui, sans-serif;
+  --body: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --brand-grad: linear-gradient(135deg, #83022e 0%, #c7064a 38%, #ee0f52 70%, #f9286b 100%);
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --r-sm: 6px;
+  --r-md: 9px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+
+  --shadow-1: 0 1px 2px rgba(20, 10, 15, 0.05), 0 1px 1px rgba(20, 10, 15, 0.03);
+  --shadow-2: 0 4px 14px -6px rgba(20, 10, 15, 0.16), 0 1px 3px rgba(20, 10, 15, 0.05);
+  --shadow-3: 0 24px 48px -18px rgba(20, 10, 15, 0.28), 0 4px 12px -6px rgba(20, 10, 15, 0.1);
+
+  --sidebar-w: 248px;
+  --rail-h: 3px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ground: #0b0809;
+  --ground-2: #110d0f;
+  --surface: #141012;
+  --surface-2: #1c171a;
+  --surface-sunk: #100c0e;
+  --line: #2a2226;
+  --line-strong: #3b3036;
+
+  --ink: #f4eef1;
+  --ink-2: #d2c4cb;
+  --muted: #a3949b;
+  --faint: #76686f;
+
+  --brand: #ff3d7f;
+  --brand-ink: #ff8ab0;
+  --brand-wash: #2a0c18;
+  --brand-line: #5a1a33;
+  --brand-deep: #b1023f;
+  --brand-light: #ff6f9c;
+
+  --live: #9d7bff;
+  --live-ink: #c3afff;
+  --live-wash: #1c1433;
+  --live-line: #3a2a6b;
+
+  --ok: #3dc47e;
+  --ok-wash: #0d2418;
+  --ok-line: #1c4530;
+
+  --warn: #e8b04a;
+  --warn-wash: #261c07;
+  --warn-line: #493715;
+
+  --halt: #f4626a;
+  --halt-wash: #2a1013;
+  --halt-line: #4d1e22;
+
+  --lamp-off: #3a3035;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 6px 18px -8px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-3: 0 28px 56px -20px rgba(0, 0, 0, 0.7), 0 6px 16px -8px rgba(0, 0, 0, 0.5);
+}

@@ -1,0 +1,17 @@
+__pycache__/
+*.py[oc]
+build/
+dist/
+*.egg-info
+.venv
+.env
+secrets/*.json
+.vscode/
+.idea/
+*.log
+logs/
+pw_channel/static/dashboard/
+ui/node_modules/
+ui/playwright-report/
+ui/test-results/
+.pytest_cache/
